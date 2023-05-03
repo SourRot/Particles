@@ -48,5 +48,17 @@ void Engine::input()
 
 void Engine::update(float dtAsSeconds)
 {
-
+	int iter = 0;
+	while (iter < m_particles.size())
+	{
+		if (m_particles[iter].getTTL() > 0.0)
+		{
+			m_particles[iter].update(dtAsSeconds);
+			iter++;
+		}
+		else
+		{
+			iter = m_particles.erase(m_particles.begin()+iter);	// iter is supposed to be of type iterator? Idk what that means, never heard of it, or at least I don't remember even hearing of it
+		}
+	}
 }
