@@ -152,11 +152,11 @@ namespace Matrices
 	}
 	TranslationMatrix::TranslationMatrix(double xShift, double yShift, int nCols) : Matrix(2, nCols + 1)
 	{
-			for (int j = 0; j < nCols; j++)
-			{
-				a[0][j] = xShift;
-				a[1][j] = yShift;
-			}
+		for (int j = 0; j <= nCols; j++)
+		{
+			a[0][j] = xShift;
+			a[1][j] = yShift;
+		}
 		
 	}
 }
