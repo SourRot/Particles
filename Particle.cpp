@@ -15,36 +15,26 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_color1.r = 230; // color 1 is currently rose pink
     m_color1.g = 159;
     m_color1.b = 150;
-    m_color2.r = rand() % 255;
-    m_color2.g = rand() % 255;
-    m_color2.b = rand() % 255;
+    m_color2.r = rand() % 256;
+    m_color2.g = rand() % 256;
+    m_color2.b = rand() % 256;
     
-    double theta = (rand() % int(M_PI/2));
-    double dTheta = (2 * M_PI) / (numPoints - 1);
-    /*
-    The algorithm is as follows:
-        Initialize theta to an angle between [0: PI/ 2]
-        Initialize dTheta to 2 * PI / (numPoints - 1);
-        This is the amount we will rotate per vertex
-            We divide by numPoints - 1 because we want the last vertex to overlap with the first so we don't leave an open edge
 
-        Loop from j up to numPoints
-            Declare local variables r, dx, and dy
-            Assign a random number between [20:80] to r (you can try a different range here)
-            dx = r * cos(theta)
-            dy = r * sin(theta)
+    // Generate the vertices of the particle
+    float theta = ((float)rand() / (RAND_MAX / (M_PI / 2.0f)));
+    float dTheta = 2.0f * M_PI / (numPoints - 1);
 
-            Increment theta by dTheta to move it to the next location for the next iteration of the loop
-            Assign the Cartesian coordinate of the newly generated vertex to m_A:
-                m_A(0, j) = m_centerCoordinate.x + dx;
-                m_A(1, j) = m_centerCoordinate.y + dy;
-    */
-    for (int j = 0; j < numPoints; j++)
-    {
-        float r = rand() % 80 + 20;
+    for (int j = 0; j < numPoints; j++) {
+        float r = rand() % 61 + 20;
         float dx = r * cos(theta);
         float dy = r * sin(theta);
+
+        m_A(0, j) = m_centerCoordinate.x + dx;
+        m_A(1, j) = m_centerCoordinate.y + dy;
+
+        theta += dTheta;
     }
+
 }
 
 void Particle::draw(RenderTarget& target, RenderStates states) const
@@ -246,7 +236,7 @@ void Particle::scale(double c)
 
 void Particle::translate(double xShift, double yShift)
 {
-    TranslationMatrix T(xShift, yShift, 3); //idk what # of columns needs to be there so I put 3 temporarily lol
+    TranslationMatrix T(xShift, yShift, 0); 
     m_A = T + m_A;
     m_centerCoordinate.x += xShift;
     m_centerCoordinate.y += yShift;

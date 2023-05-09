@@ -44,6 +44,7 @@ namespace Matrices
 		{
 			throw runtime_error("Error: dimensions must agree");
 		}
+
 		Matrix c(a.getRows(), a.getCols());
 		for (int i = 0; i < a.getRows(); i++)
 		{
@@ -137,5 +138,25 @@ namespace Matrices
 		else { notMatching = true; }
 
 		return notMatching;
+	}
+	RotationMatrix::RotationMatrix(double theta) : Matrix(2,2)
+	{
+		a[0][0] = cos(theta);
+		a[0][1] = -sin(theta);
+		a[1][0] = sin(theta);
+		a[1][1] = cos(theta);
+	}
+	ScalingMatrix::ScalingMatrix(double scale) : Matrix(2, 2) {
+		(*this)(0, 0) = scale;
+		(*this)(1, 1) = scale;
+	}
+	TranslationMatrix::TranslationMatrix(double xShift, double yShift, int nCols) : Matrix(2, nCols + 1)
+	{
+			for (int j = 0; j < nCols; j++)
+			{
+				a[0][j] = xShift;
+				a[1][j] = yShift;
+			}
+		
 	}
 }

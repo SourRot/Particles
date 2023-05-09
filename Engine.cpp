@@ -38,7 +38,7 @@ void Engine::input()
 			{
 				for (int i = 0; i < 5; i++)
 				{
-					Particle newPart(m_Window, rand() % (50 - 25 + 1) + 25, Mouse::getPosition(m_Window));
+					Particle newPart(m_Window, rand() % (50 - 25 + 1) + 25, Mouse::getPosition(m_Window)); // why is it 50 - 25 + 1 instead of 26? lol
 					m_particles.push_back(newPart);
 				}
 			}
@@ -48,8 +48,23 @@ void Engine::input()
 
 void Engine::update(float dtAsSeconds)
 {
-	int iter = 0;
-	while (iter < m_particles.size())
+	vector<Particle>::iterator iter;
+
+	while(iter != m_particles.end())
+	{
+		Particle& p = *iter;
+		if (iter->getTTL() > 0.0)
+		{
+			iter->update(dtAsSeconds);
+			iter++;
+		}
+		else 
+		{
+			iter = m_particles.erase(iter);
+		}
+	}
+	/*
+		while (iter < m_particles.size())
 	{
 		if (m_particles[iter].getTTL() > 0.0)
 		{
@@ -61,4 +76,18 @@ void Engine::update(float dtAsSeconds)
 			iter = m_particles.erase(m_particles.begin()+iter);	// iter is supposed to be of type iterator? Idk what that means, never heard of it, or at least I don't remember even hearing of it
 		}
 	}
+
+	^^^^ Iterators are gone over in the "List" chapters in our Zybooks, 12.2 has some more info on them 
+	*/
+
+}
+
+void Engine::draw()
+{
+	m_Window.clear();
+	for (int i = 0; i < m_particles.size(); i++)
+	{
+		m_Window.draw(m_particles.at(i));
+	}
+	m_Window.display();
 }
