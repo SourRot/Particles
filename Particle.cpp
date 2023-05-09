@@ -6,7 +6,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     // Setting up our Particle!
     m_ttl = TTL;
     m_numPoints = numPoints;
-    m_radiansPerSec = ((float)rand() / RAND_MAX) * M_PI;
+    m_radiansPerSec = ((float)rand() / RAND_MAX) * PI;
     m_cartesianPlane.setCenter(0, 0);
     m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
@@ -21,8 +21,8 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     
 
     // Generate the vertices of the particle
-    float theta = ((float)rand() / (RAND_MAX / (M_PI / 2.0f)));
-    float dTheta = 2.0f * M_PI / (numPoints - 1);
+    float theta = ((float)rand() / (RAND_MAX / (PI / 2.0f)));
+    float dTheta = 2.0f * PI / (numPoints - 1);
 
     for (int j = 0; j < numPoints; j++) {
         float r = rand() % 61 + 20;
@@ -46,8 +46,10 @@ void Particle::draw(RenderTarget& target, RenderStates states) const
 
     for (int j = 1; j <= m_numPoints; j++)
     {
-        Vector2i pixelCoords = target.mapCoordsToPixel(Vector2f(m_A(j - 1, 0), m_A(j - 1, 1)));
-        Vector2f pos(pixelCoords.x, pixelCoords.y);
+        Vector2f pixelCoords;
+        pixelCoords.x = m_A(0, j - 1);
+        pixelCoords.y = m_A(1, j - 1);
+        Vector2f pos(target.mapCoordsToPixel(pixelCoords, m_cartesianPlane));
         lines[j].position = pos;
         lines[j].color = m_color2;
     }
@@ -78,8 +80,8 @@ void Particle::unitTests()
     int score = 0;
 
     cout << "Testing RotationMatrix constructor...";
-    double theta = M_PI / 4.0;
-    RotationMatrix r(M_PI / 4);
+    double theta = PI / 4.0;
+    RotationMatrix r(PI / 4);
     if (r.getRows() == 2 && r.getCols() == 2 && almostEqual(r(0, 0), cos(theta))
         && almostEqual(r(0, 1), -sin(theta))
         && almostEqual(r(1, 0), sin(theta))
@@ -142,7 +144,7 @@ void Particle::unitTests()
 
     cout << "Applying one rotation of 90 degrees about the origin..." << endl;
     Matrix initialCoords = m_A;
-    rotate(M_PI / 2.0);
+    rotate(PI / 2.0);
     bool rotationPassed = true;
     for (int j = 0; j < initialCoords.getCols(); j++)
     {
