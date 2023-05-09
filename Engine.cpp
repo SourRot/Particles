@@ -38,7 +38,7 @@ void Engine::input()
 			{
 				for (int i = 0; i < 5; i++)
 				{
-					Particle newPart(m_Window, rand() % (50 - 25 + 1) + 25, Mouse::getPosition(m_Window)); // why is it 50 - 25 + 1 instead of 26? lol
+					Particle newPart(m_Window, rand() % (50 - 25 + 1) + 25, Mouse::getPosition(m_Window)); 
 					m_particles.push_back(newPart);
 				}
 			}
@@ -48,7 +48,7 @@ void Engine::input()
 
 void Engine::update(float dtAsSeconds)
 {
-	vector<Particle>::iterator iter;
+	vector<Particle>::iterator iter = m_particles.begin();
 
 	while(iter != m_particles.end())
 	{

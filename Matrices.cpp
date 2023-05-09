@@ -147,16 +147,16 @@ namespace Matrices
 		a[1][1] = cos(theta);
 	}
 	ScalingMatrix::ScalingMatrix(double scale) : Matrix(2, 2) {
+
 		(*this)(0, 0) = scale;
 		(*this)(1, 1) = scale;
 	}
-	TranslationMatrix::TranslationMatrix(double xShift, double yShift, int nCols) : Matrix(2, nCols + 1)
+	TranslationMatrix::TranslationMatrix(double xShift, double yShift, int nCols) : Matrix(2, nCols)
 	{
-		for (int j = 0; j <= nCols; j++)
+		for (int i = 0; i < nCols; i++)
 		{
-			a[0][j] = xShift;
-			a[1][j] = yShift;
+			a.at(0).at(i) = xShift;
+			a.at(1).at(i) = yShift;
 		}
-		
 	}
 }
