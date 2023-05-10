@@ -14,8 +14,7 @@ void Engine::run()
 
 	while (m_Window.isOpen())
 	{
-		clock.restart();
-		Time dt = clock.getElapsedTime();
+		Time dt = clock.restart();
 		input();
 		update(dt.asSeconds());
 		draw();
@@ -63,23 +62,6 @@ void Engine::update(float dtAsSeconds)
 			iter = m_particles.erase(iter);
 		}
 	}
-	/*
-		while (iter < m_particles.size())
-	{
-		if (m_particles[iter].getTTL() > 0.0)
-		{
-			m_particles[iter].update(dtAsSeconds);
-			iter++;
-		}
-		else
-		{
-			iter = m_particles.erase(m_particles.begin()+iter);	// iter is supposed to be of type iterator? Idk what that means, never heard of it, or at least I don't remember even hearing of it
-		}
-	}
-
-	^^^^ Iterators are gone over in the "List" chapters in our Zybooks, 12.2 has some more info on them 
-	*/
-
 }
 
 void Engine::draw()
