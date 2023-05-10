@@ -226,7 +226,7 @@ void Particle::rotate(double theta)
     translate(temp.x, temp.y);
 }
 
-void Particle::scale(double c)
+void Particle::scale(double c)  // Known issue: Particles shrink slower for every click
 {
     Vector2f temp = m_centerCoordinate;
 
@@ -238,7 +238,7 @@ void Particle::scale(double c)
     translate(temp.x, temp.y);
 }
 
-void Particle::translate(double xShift, double yShift)
+void Particle::translate(double xShift, double yShift)  // Known issue: Particles moving towards the right
 {
     TranslationMatrix T(xShift, yShift, m_A.getCols()); 
     m_A = T + m_A;
